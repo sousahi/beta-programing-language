@@ -19,7 +19,7 @@ gcc -o beta beta.c -lm
 
 Você pode usar o BETA de três formas:
 
-    Via IDE (Python): ```bash python3 app.py
+    Via IDE (Python): ```bash python3 app.py(IDE PYTHON DESATIVADO)
 
     Via Script de Automação:
     Bash
