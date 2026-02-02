@@ -34,19 +34,29 @@ Você pode usar o BETA de três formas:
 📖 Comandos da Linguagem
 
 O BETA utiliza prefixos para identificar ações. Aqui estão os principais:
+
 Prefixo	Função	Exemplo
+
 it/:	Cria variáveis inteiras	it/: x = 10
+
 math/:	Cálculos de potência	math/: x = 2 ^ 3
+
 rand/:	Gera números aleatórios	rand/: d6 = 6
+
 time/:	Captura o ano atual	time/: ano_agora
+
 os/:	Comandos do sistema	os/: "ls"
+
 say/(" ")	Imprime mensagens	say/("Ola Mundo")
+
 say/( )	Imprime valor de variável	say/(x)
+
 count/:	Pausa a execução (ms)	count/:[1000]
+
 stop( )	Finaliza blocos	stop( )
 🐞 Bugs e Suporte
 
-Esta é a versão 1.0, então bugs podem acontecer! Se você encontrar algum erro ou quiser apoiar o projeto:
+Esta é a versão 1.0 E 1.1, então bugs podem acontecer! Se você encontrar algum erro ou quiser apoiar o projeto:
 
     📧 Email: spierry52@gmail.com
 
