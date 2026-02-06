@@ -1,0 +1,4 @@
+# Escreva seu código Beta aqui
+say/("Ola gente")
+it/: x = 90
+say/(x)

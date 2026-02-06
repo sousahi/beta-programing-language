@@ -1,0 +1,4 @@
+# Escreva seu código Beta aqui
+say/("Ola do App!")
+it/: x = 10
+say/(x)
