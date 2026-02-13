@@ -1,0 +1,12 @@
+# Build artifacts
+**/beta
+**/beta_test
+**/*.o
+
+# Temporary scripts / backups
+**/temp_script.bt
+**/*~
+
+# Python cache
+**/__pycache__/
+**/*.pyc

@@ -42,9 +42,12 @@ void set_var(char *name, int value) {
         if (strcmp(vars[i].name, n) == 0) { vars[i].value = value; return; }
     }
     if (var_count < MAX_VARS) {
-        strncpy(vars[var_count].name, n, 31);
+        strncpy(vars[var_count].name, n, sizeof(vars[var_count].name) - 1);
+        vars[var_count].name[sizeof(vars[var_count].name) - 1] = '\0';
         vars[var_count].value = value;
         var_count++;
+    } else {
+        fprintf(stderr, "Erro: limite de variaveis (%d) atingido.\n", MAX_VARS);
     }
 }
 
@@ -57,7 +60,11 @@ void process_line(char *line) {
     // Prefixo it/: (Variáveis)
     if (strncmp(ptr, "it/:", 4) == 0) {
         char name[32]; int val;
-        if (sscanf(ptr + 4, " %s = %d", name, &val) == 2) set_var(name, val);
+        if (sscanf(ptr + 4, " %31s = %d", name, &val) == 2) {
+            set_var(name, val);
+        } else {
+            fprintf(stderr, "Erro de sintaxe em it/: %s\n", ptr);
+        }
     }
     // Prefixo say/: (Strings e Variáveis)
     else if (strncmp(ptr, "say/(\"", 6) == 0) {
@@ -66,39 +73,72 @@ void process_line(char *line) {
     }
     else if (strncmp(ptr, "say/(", 5) == 0) {
         char name[32];
-        if (sscanf(ptr + 5, "%[^)]", name) == 1) printf("%d\n", get_var(name));
+        if (sscanf(ptr + 5, "%31[^)]", name) == 1) {
+            printf("%d\n", get_var(name));
+        } else {
+            fprintf(stderr, "Erro de sintaxe em say/: %s\n", ptr);
+        }
     }
     // Prefixo math/: (Potência)
     else if (strncmp(ptr, "math/:", 6) == 0) {
         char name[32]; int base, exp;
-        if (sscanf(ptr + 6, " %s = %d ^ %d", name, &base, &exp) == 3) {
+        if (sscanf(ptr + 6, " %31s = %d ^ %d", name, &base, &exp) == 3) {
             set_var(name, (int)pow(base, exp));
+        } else {
+            fprintf(stderr, "Erro de sintaxe em math/: %s\n", ptr);
         }
     }
     // Prefixo time/: (Ano atual)
     else if (strncmp(ptr, "time/:", 6) == 0) {
         char name[32];
-        if (sscanf(ptr + 6, " %s", name) == 1) {
+        if (sscanf(ptr + 6, " %31s", name) == 1) {
             time_t t = time(NULL);
             struct tm tm = *localtime(&t);
             set_var(name, tm.tm_year + 1900);
+        } else {
+            fprintf(stderr, "Erro de sintaxe em time/: %s\n", ptr);
         }
     }
     // NOVO: Prefixo rand/: (Aleatórios) -> rand/: x = 100
     else if (strncmp(ptr, "rand/:", 6) == 0) {
         char name[32]; int limit;
-        if (sscanf(ptr + 6, " %s = %d", name, &limit) == 2) {
+        if (sscanf(ptr + 6, " %31s = %d", name, &limit) == 2) {
+            if (limit <= 0) {
+                fprintf(stderr, "Erro: rand/: o limite deve ser maior que zero.\n");
+                return;
+            }
             set_var(name, rand() % limit);
+        } else {
+            fprintf(stderr, "Erro de sintaxe em rand/: %s\n", ptr);
         }
     }
     // NOVO: Prefixo os/: (Comandos do Sistema) -> os/: "clear"
     else if (strncmp(ptr, "os/:", 4) == 0) {
         char cmd[128];
-        if (sscanf(ptr + 4, " \"%[^\"]\"", cmd) == 1) system(cmd);
+        if (sscanf(ptr + 4, " \"%127[^\"]\"", cmd) == 1) {
+            system(cmd);
+        } else {
+            fprintf(stderr, "Erro de sintaxe em os/: %s\n", ptr);
+        }
+    }
+    // Prefixo count/: (Pausa em ms) -> count/:[1000] ou count/: 1000
+    else if (strncmp(ptr, "count/:", 7) == 0) {
+        int milliseconds = 0;
+        if (sscanf(ptr + 7, " [%d]", &milliseconds) == 1 || sscanf(ptr + 7, " %d", &milliseconds) == 1) {
+            if (milliseconds < 0) {
+                fprintf(stderr, "Erro: count/: valor nao pode ser negativo.\n");
+                return;
+            }
+            usleep((useconds_t)milliseconds * 1000);
+        } else {
+            fprintf(stderr, "Erro de sintaxe em count/: %s\n", ptr);
+        }
     }
     // Comando stop
-    else if (strcmp(ptr, "exit") == 0 || strcmp(ptr, "stop") == 0) {
+    else if (strcmp(ptr, "exit") == 0 || strcmp(ptr, "stop") == 0 || strcmp(ptr, "stop()") == 0 || strcmp(ptr, "stop( )") == 0) {
         exit(0);
+    } else {
+        fprintf(stderr, "Comando desconhecido: %s\n", ptr);
     }
 }
 
