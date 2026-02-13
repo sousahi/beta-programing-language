@@ -1,72 +1,81 @@
-# 🚀 BETA Language Studio (v1.1)
+# BETA Language Studio (v1.1)
 
-Olá! Eu sou o Paulo e o BETA é o meu projeto de linguagem de programação simples, desenvolvida totalmente em C com uma interface integrada em Python. Criei este projeto por hobby e para aprender mais sobre como computadores entendem instruções.
-## 🛠️ Requisitos e Instalação
+Ola! Eu sou o Paulo e o BETA e meu projeto de linguagem de programacao simples, desenvolvido em C com interface em Python.
 
-Se você está no Linux (Ubuntu/Debian), instale as dependências básicas:
-Bash
+## Requisitos
 
-``` bash
+No Linux (Ubuntu/Debian):
+
+```bash
 sudo apt install build-essential python3-tk -y
 ```
 
-Compilando o Motor
+## Compilar
 
-Para compilar o núcleo da linguagem (beta.c), use:
-Bash
-
-``` bash
+```bash
 gcc -o beta beta.c -lm
 ```
 
-## 🕹️ Como Usar
+## Como Usar
 
-Você pode usar o BETA de três formas:
+- Modo interativo:
 
-    Via IDE (Python): ```bash python3 app.py(IDE PYTHON DESATIVADO NA VERSAO 1.1MAS CONTEM MODO INTERATIVO E A VERSAO 1.0 E A CORE COM MENOS PREFIXOS MAS COM IDE PYTHON)
+```bash
+./beta
+```
 
-    Via Script de Automação:
-    Bash
+- Rodar script `.bt`:
 
-    ./build.sh
+```bash
+./beta script.bt
+```
 
-    Via Terminal (Interativo):
-    Bash
+- Script de automacao:
 
-    ./beta
+```bash
+./build.sh
+```
 
-## 📖 Comandos da Linguagem
+- IDE Python:
 
-O **BETA** utiliza prefixos para identificar ações. Aqui estão os principais:
+```bash
+python3 app.py
+```
 
-Prefixo	Função	Exemplo:
+## Comandos
 
-- it/:	Cria variáveis inteiras	it/: x = 10
+- `it/: x = 10`  
+  Cria/atualiza variavel inteira.
 
-- math/:	Cálculos de potência	```math/: x = 2 ^ 3```
+- `say/("Ola Mundo")`  
+  Imprime string.
 
-- rand/:	Gera números aleatórios	```rand/: d6 = 6```
+- `say/(x)`  
+  Imprime valor da variavel.
 
-- time/:	Captura o ano atual	```time/: ano_agora```
+- `math/: pot = 2 ^ 3`  
+  Potencia inteira.
 
-- os/:	Comandos do sistema	```os/: "ls"```
+- `time/: ano_agora`  
+  Salva ano atual em variavel.
 
-- say/(" "):	Imprime mensagens	```say/("Ola Mundo")```
+- `rand/: d6 = 6`  
+  Gera aleatorio entre `0` e `limite-1` (limite deve ser maior que 0).
 
-- say/( ):	Imprime valor de variável	```say/(x)```
+- `count/:[1000]` ou `count/: 1000`  
+  Pausa em milissegundos.
 
-- count/:	Pausa a execução (ms)	```count/:[1000]```
+- `os/: "ls"`  
+  Executa comando do sistema (use com cuidado).
 
-- stop( ):	Finaliza blocos	stop( )
+- `stop`, `stop()`, `stop( )` ou `exit`  
+  Finaliza execucao.
 
-## 🐞 Bugs e Suporte
+## Suporte
 
-Esta é a versão 1.0 E 1.1, então bugs podem acontecer! Se você encontrar algum erro ou quiser apoiar o projeto:
+Se encontrar bugs ou quiser sugerir comandos novos:
 
-    📧 Email: spierry52@gmail.com
+- Email: `spierry52@gmail.com`
+- Autor: Paulo
 
-    Autor: Paulo (12 anos)
-
-Eu leio todos os e-mails! Se tiver uma ideia de comando novo, me mande.
-> ⚠️ **Licença**: Uso autorizado em projetos de terceiros apenas com créditos ao criador. <br>
-> Proibido uso comercial. Projeto de autoria de **Paulo**. ⚠️
+> Licenca: uso permitido apenas para fins educacionais e nao comerciais, com creditos ao autor.

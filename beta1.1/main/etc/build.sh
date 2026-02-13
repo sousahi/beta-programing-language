@@ -11,14 +11,17 @@ if ! gcc -o beta beta.c -lm; then
 fi
 
 echo "✅ Motor compilado com sucesso!"
-echo "🔍 Procurando arquivos .bt no sistema..."
+echo "🔍 Procurando arquivos .bt no projeto..."
 echo "------------------------------------------"
 
 # 2. Criar uma lista de arquivos .bt
-mapfile -t arquivos < <(find ~ -name "*.bt" 2>/dev/null)
+# Uso: ./build.sh [diretorio]
+# Se nao passar diretorio, usa o diretorio atual para evitar varredura no HOME inteiro.
+SEARCH_DIR="${1:-$(pwd)}"
+mapfile -t arquivos < <(find "$SEARCH_DIR" -type f -name "*.bt" 2>/dev/null)
 
 if [ ${#arquivos[@]} -eq 0 ]; then
-    echo "🚫 Nenhum arquivo .bt encontrado."
+    echo "🚫 Nenhum arquivo .bt encontrado em: $SEARCH_DIR"
     read -p "Pressione [Enter] para sair..."
     exit 1
 fi

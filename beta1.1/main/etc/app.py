@@ -3,19 +3,34 @@ from tkinter import scrolledtext
 import subprocess
 import os
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BETA_BIN = os.path.join(BASE_DIR, "beta")
+TEMP_SCRIPT = os.path.join(BASE_DIR, "temp_script.bt")
+
 def rodar_beta():
     # 1. Pega o código escrito no editor
     codigo = txt_edit.get("1.0", tk.END)
-    
+
+    if not os.path.exists(BETA_BIN):
+        output_console.config(state=tk.NORMAL)
+        output_console.delete("1.0", tk.END)
+        output_console.insert(tk.END, "Erro: binario 'beta' nao encontrado.\nCompile com: gcc -o beta beta.c -lm")
+        output_console.config(state=tk.DISABLED)
+        return
+
     # 2. Salva em um arquivo temporário
-    with open("temp_script.bt", "w") as f:
+    with open(TEMP_SCRIPT, "w", encoding="utf-8") as f:
         f.write(codigo)
     
     # 3. Executa o seu interpretador C
     try:
-        # Chama ./beta passando o arquivo temporário
-        processo = subprocess.run(['./beta', 'temp_script.bt'], 
-                                   capture_output=True, text=True)
+        # Chama o binario passando o arquivo temporario
+        processo = subprocess.run(
+            [BETA_BIN, TEMP_SCRIPT],
+            capture_output=True,
+            text=True,
+            cwd=BASE_DIR
+        )
         
         # 4. Mostra a saída (ou erro) no console do app
         output_console.config(state=tk.NORMAL)
